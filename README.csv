@@ -1,0 +1,36 @@
+Importing the Influence Explorer bulk CSV data
+==============================================
+
+http://data.influenceexplorer.com/bulk/ includes many useful data sets
+as comma-separated value (CSV) files.  Using these allows offline data
+analysis without having an API key, and can allow queries that aren't
+supported by the online API.
+
+These scripts include support for importing the CSV data into an
+SQLite single-file database.  SQLite support is included in recent
+versions of Python; the standard Ubuntu python2.7 package includes the
+sqlite3 module.  Other databases could be substituted with fairly
+little effort.
+
+I JUST WANT TO USE THIS.  Run 'setupcsv.py'.  This will require you to
+download a number of data files, by default into a subdirectory named
+'data'.  Download the named files (checking their terms and conditions
+first) and run the setup script again.
+
+I WANT TO WRITE PYTHON CODE AGAINST THIS.  import sqlite3 and run from
+there; for instance
+
+db = sqlite3.connect('contributions.sqlite')
+cursor = db.cursor()
+result = cursor.execute("SELECT DISTINCT recipient_name FROM fec")
+while True:
+  row = result.fetchone()
+  if row is None: break
+  print row
+  pass
+db.close()
+
+SQL IS MY FAVORITE LANGUAGE AND I WANT TO LEARN MORE.  Install the
+sqlite3 command-line client (e.g., 'apt-get install sqlite3') and then
+then run 'sqlite3 contributions.sqlite'.  Run queries to your heart's
+content.
